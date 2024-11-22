@@ -31,26 +31,35 @@ def get_prompt():
 
 
 def generate_openai_shell_prompt(context: Context) -> str:
-    """Generates the system prompt for OpenAI using the dynamic context when a shell command is generated."""
+    """System prompt for OpenAI for when a shell command is generated."""
     return (
         "You are SheLLM, a shell command generator. Your task is to generate "
-        "accurate shell commands for a highly skilled Linux user. The user expects precise, context-aware suggestions"
-        "The user's history of commands and their outputs from their current linux terminal session are given to you "
-        f"below and should be analyzed to understand their patterns and goals:\n{context.tui_history}\n\n"
-        "The user's most recent command and its output are given to you below -  prioritize them as the primary basis "
-        "for inference, while still considering the broader context of the given Shell Session history for "
-        "additional insights."        
+        "accurate shell commands for a highly skilled Linux user. The user "
+        "expects precise, context-aware suggestions"
+        "The user's history of commands and their outputs from their current "
+        "linux terminal session are given to you "
+        f"below and should be analyzed to understand their patterns and "
+        f"goals:\n{context.tui_history}\n\n"
+        "The user's most recent command and its output are given to you "
+        "below -  prioritize them as the primary basis "
+        "for inference, while still considering the broader context of the "
+        "given Shell Session history for"
+        "additional insights."
         f"Most prior command from user:\n{context.last_command}\n"
         f"Response to the most prior command:\n{context.last_command}\n\n"
-        "Your output must consist solely of shell commands, with no explanations, additional information, comments, "
+        "Your output must consist solely of shell commands, with no "
+        "explanations, additional information, comments, "
         "or symbols not part of the command syntax."
     )
 
 
 def generate_openai_question_prompt(context: Context) -> str:
-    """Generates the user prompt for OpenAI using the dynamic context when a question is asked."""
+    """System prompt for OpenAI for when a question is asked."""
     return (
-        "You are SheLLM, a shell command specialist. Your task is to not discuss other topics, provide short, accurate,"
-        " extremely concise, and context-aware shell commands and shell scripting related topics knowledge to a highly "
-        f"skilled Linux user. Use for context the user's current terminal session history:\n{context.tui_history}\n\n"
+        "You are SheLLM, a shell command specialist. Your task is to not "
+        "discuss other topics, provide short, accurate,"
+        " extremely concise, and context-aware shell commands and shell "
+        "scripting related topics knowledge to a highly "
+        f"skilled Linux user. Use for context the user's current terminal "
+        f"session history:\n{context.tui_history}\n\n"
     )

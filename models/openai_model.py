@@ -2,8 +2,8 @@ import openai
 import os
 import logging
 from dotenv import load_dotenv
+from core import prompts
 from config.logger_setup import setup_logging
-from core.prompts import generate_openai_shell_prompt, generate_openai_question_prompt
 from utils.schemas import Context
 from utils.sanitizer import remove_code_block
 
@@ -80,7 +80,7 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
             messages = [
                 {
                     "role": "system",
-                    "content": generate_openai_shell_prompt(context)
+                    "content": prompts.generate_openai_shell_prompt(context)
                 },
                 {
                     "role": "user",
@@ -109,12 +109,12 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
 
     def answer_question(self, context: Context, question):
         """Generates answers to questions based on the provided context and question."""
-        logger.debug(f"Answering question for context: {context.tui_history} and question: {question}")
+        logger.debug(f"Answering question for context: {context.tui_history} and question: {question}")  # noqa
         try:
             messages = [
                 {
                     "role": "system",
-                    "content": generate_openai_question_prompt(context)
+                    "content": prompts.generate_openai_question_prompt(context)
                 },
                 {
                     "role": "user",
