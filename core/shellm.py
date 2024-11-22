@@ -29,7 +29,6 @@ class SheLLM:
         """Updates the context object with new terminclass SheLLM."""
         self.update_command_history(output)
         self.capture_prior_command(output)
-        logger.info(f"Updated the context after new output: {output}")
 
     def update_command_history(self, output) -> None:
         """Updates the entire context with new terminal output."""
