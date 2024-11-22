@@ -3,9 +3,11 @@ import pty
 import sys
 import select
 import logging
+
 from .prompts import get_prompt
 
 logger = logging.getLogger(__name__)
+
 
 def run_interactive_ssh(tokens, shellm):
     """Runs an interactive SSH session."""

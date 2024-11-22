@@ -2,6 +2,7 @@ import os
 import logging
 from datetime import datetime
 from colorama import Fore, Style
+
 from .commands import change_directory, run_command_with_pty
 from .ssh import run_interactive_ssh
 from utils.schemas import Context
