@@ -3,7 +3,7 @@ import pty
 import sys
 import select
 import logging
-from .prompt import get_prompt
+from .prompts import get_prompt
 
 logger = logging.getLogger(__name__)
 

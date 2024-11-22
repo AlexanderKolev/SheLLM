@@ -3,7 +3,7 @@ import os
 import logging
 from dotenv import load_dotenv
 from config.logger_setup import setup_logging
-from core.prompt import get_openai_system_prompt
+from core.prompts import generate_openai_shell_prompt, generate_openai_question_prompt
 from utils.schemas import Context
 from utils.sanitizer import remove_code_block
 
@@ -75,12 +75,12 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
         prompt: str
     ) -> str | None:
         """Generates shell commands based on the provided context and prompt."""
-        logger.debug(f"Generating command suggestion for previous commands: {context.command_history} and prompt: {prompt}")
+        logger.debug(f"Generating command suggestion for context: {context.tui_history} and prompt: {prompt}")
         try:
             messages = [
                 {
                     "role": "system",
-                    "content": get_openai_system_prompt(context)
+                    "content": generate_openai_shell_prompt(context)
                 },
                 {
                     "role": "user",
@@ -109,16 +109,12 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
 
     def answer_question(self, context: Context, question):
         """Generates answers to questions based on the provided context and question."""
-        logger.debug(f"Answering question for context: {context.command_history} and question: {question}")
+        logger.debug(f"Answering question for context: {context.tui_history} and question: {question}")
         try:
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a knowledgeable assistant who provides detailed answers to questions."
-                },
-                {
-                    "role": "user",
-                    "content": context.command_history
+                    "content": generate_openai_question_prompt(context)
                 },
                 {
                     "role": "user",

@@ -6,7 +6,7 @@ import logging
 from colorama import init, Fore, Style
 from config.logger_setup import setup_logging
 from core.shellm import SheLLM
-from core.prompt import get_prompt
+from core.prompts import get_prompt
 
 # Configure logging
 setup_logging()
