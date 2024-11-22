@@ -3,7 +3,9 @@ import logging
 from groq import Groq
 from dotenv import load_dotenv
 from config.logger_setup import setup_logging
+from core import prompts
 from utils.sanitizer import remove_code_block
+from utils.schemas import Context
 
 # Configure logging
 setup_logging()
@@ -66,18 +68,18 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
             logger.error(f"Error fetching suggestion from Groq: {e}")
             return None
 
-    def get_command_suggestion(self, context, prompt):
-        """Generates shell commands based on the provided context and prompt."""
-        logger.debug(f"Generating command suggestion for context: {context} and prompt: {prompt}")
+    def get_command_suggestion(
+        self,
+        context: Context,
+        prompt: str
+    ):
+        """Generates shell commands based on context and a prompt."""
+        logger.debug(f"Generating command suggestion from {self.__class__.__name__} and for prompt: {prompt}")  # noqa
         try:
             messages = [
                 {
                     "role": "system",
-                    "content": "You serve as a dedicated assistant that exclusively generates shell commands. Given the context provided, proactively discern the user's requirements and provide the most suitable command. Exclude any comments or flags in your output."
-                },
-                {
-                    "role": "user",
-                    "content": context
+                    "content": prompts.generate_shell_system_prompt(context)
                 },
                 {
                     "role": "user",
@@ -100,18 +102,18 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
             logger.error(f"Error fetching suggestion from Groq: {e}")
             return None
 
-    def answer_question(self, context, question):
-        """Generates answers to questions based on the provided context and question."""
-        logger.debug(f"Answering question for context: {context} and question: {question}")
+    def answer_question(
+        self,
+        context: Context,
+        question: str
+    ) -> str | None:
+        """Generates answers to semantic questions."""
+        logger.debug(f"Answering question for context: {context.session_history} and question: {question}")  # noqa
         try:
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a knowledgeable assistant who provides detailed answers to questions."
-                },
-                {
-                    "role": "user",
-                    "content": context
+                    "content": prompts.generate_qa_system_prompt(context)
                 },
                 {
                     "role": "user",

@@ -30,8 +30,8 @@ def get_prompt():
     return ' '.join(prompt_parts) + "\n>"
 
 
-def generate_openai_shell_prompt(context: Context) -> str:
-    """System prompt for OpenAI for when a shell command is generated."""
+def generate_shell_system_prompt(context: Context) -> str:
+    """System prompt for when a shell command is to be generated."""
     return (
         "You are SheLLM, a shell command generator. Your task is to generate "
         "accurate shell commands for a highly skilled Linux user. The user "
@@ -53,8 +53,8 @@ def generate_openai_shell_prompt(context: Context) -> str:
     )
 
 
-def generate_openai_question_prompt(context: Context) -> str:
-    """System prompt for OpenAI for when a question is asked."""
+def generate_qa_system_prompt(context: Context) -> str:
+    """System prompt for when a semantic question is asked."""
     return (
         "You are SheLLM, a shell command specialist. Your task is to not "
         "discuss other topics, provide short, accurate,"
