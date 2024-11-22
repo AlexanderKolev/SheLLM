@@ -39,7 +39,7 @@ def generate_openai_shell_prompt(context: Context) -> str:
         "The user's history of commands and their outputs from their current "
         "linux terminal session are given to you "
         f"below and should be analyzed to understand their patterns and "
-        f"goals:\n{context.tui_history}\n\n"
+        f"goals:\n{context.session_history}\n\n"
         "The user's most recent command and its output are given to you "
         "below -  prioritize them as the primary basis "
         "for inference, while still considering the broader context of the "
@@ -61,5 +61,5 @@ def generate_openai_question_prompt(context: Context) -> str:
         " extremely concise, and context-aware shell commands and shell "
         "scripting related topics knowledge to a highly "
         f"skilled Linux user. Use for context the user's current terminal "
-        f"session history:\n{context.tui_history}\n\n"
+        f"session history:\n{context.session_history}\n\n"
     )

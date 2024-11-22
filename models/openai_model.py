@@ -75,7 +75,7 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
         prompt: str
     ) -> str | None:
         """Generates shell commands based on the provided context and prompt."""
-        logger.debug(f"Generating command suggestion for context: {context.tui_history} and prompt: {prompt}")
+        logger.debug(f"Generating command suggestion for context: {context.session_history} and prompt: {prompt}")
         try:
             messages = [
                 {
@@ -109,7 +109,7 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
 
     def answer_question(self, context: Context, question):
         """Generates answers to questions based on the provided context and question."""
-        logger.debug(f"Answering question for context: {context.tui_history} and question: {question}")  # noqa
+        logger.debug(f"Answering question for context: {context.session_history} and question: {question}")  # noqa
         try:
             messages = [
                 {

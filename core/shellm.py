@@ -28,7 +28,7 @@ class SheLLM:
         """Updates the context object with the last command and its output."""
         self.context.last_command = command
         self.context.last_output = output
-        self.context.update_tui_history(command, output)
+        self.context.update_session_history(command, output)
 
         logger.debug(f"Updated the context after the last command of >{self.context.last_command})")  # noqa
 
