@@ -4,7 +4,7 @@ import logging
 from dotenv import load_dotenv
 from config.logger_setup import setup_logging
 from core.prompt import get_openai_system_prompt
-from core.schemas import Context
+from utils.schemas import Context
 from utils.sanitizer import remove_code_block
 
 # Configure logging
@@ -69,9 +69,13 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
             logger.error(f"Error fetching suggestion from OpenAI: {e}")
             return None
 
-    def get_command_suggestion(self, context: Context, prompt):
+    def get_command_suggestion(
+        self,
+        context: Context,
+        prompt: str
+    ) -> str | None:
         """Generates shell commands based on the provided context and prompt."""
-        logger.debug(f"Generating command suggestion for context: {context.entire_context} and prompt: {prompt}")
+        logger.debug(f"Generating command suggestion for previous commands: {context.command_history} and prompt: {prompt}")
         try:
             messages = [
                 {
@@ -105,7 +109,7 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
 
     def answer_question(self, context: Context, question):
         """Generates answers to questions based on the provided context and question."""
-        logger.debug(f"Answering question for context: {context.entire_context} and question: {question}")
+        logger.debug(f"Answering question for context: {context.command_history} and question: {question}")
         try:
             messages = [
                 {
@@ -114,7 +118,7 @@ docker system df | awk '/VOLUME/{getline; while($1 ~ /^[[:alnum:]]/){print $2, $
                 },
                 {
                     "role": "user",
-                    "content": context.entire_context
+                    "content": context.command_history
                 },
                 {
                     "role": "user",

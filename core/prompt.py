@@ -3,7 +3,7 @@ import getpass
 from datetime import datetime
 from colorama import Fore, Style
 from .git import get_git_info
-from .schemas import Context
+from utils.schemas import Context
 
 
 def get_prompt():
@@ -32,13 +32,13 @@ def get_openai_system_prompt(context:Context) -> str:
     """Generates the system prompt for OpenAI using the dynamic context."""
     return (
         "You are SheLLM, a shell command generator. Your task is to generate "
-        "concise and accurate shell commands based on the provided context of "
-        "previous shell commands ran by the user. Use them to "
-        "understand what the user is trying to achieve with the command you are "
-        "going to return. You will also be given the user's last command ran and you "
-        "must always prioritize it strongly when taking it in the context. \n"
-        f"The user's previous commands for reference:\n{context.entire_context}\n\n"
-        f"The user's last command is the most important:\n{context.prior_command}"
-        "Your output must only include the shell command, with no "
-        "explanations.\n\n"
+        "concise and accurate shell commands based on the provided context of the "
+        "user's previous commands. Use the context to infer the user's intent and predict "
+        "the next logical command. \n\n"
+        "The user's command history should be analyzed to understand patterns and goals:\n"
+        f"{context.command_history}\n\n"
+        "The last command executed by the user is the most critical context and should be "
+        "prioritized when determining the next command:\n"
+        f"{context.prior_command}\n\n"
+        "Your output must be a single shell command, without any explanations or additional information."
     )
