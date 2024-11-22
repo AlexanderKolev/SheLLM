@@ -45,7 +45,7 @@ def main(llm_api):
             elif cmd.strip().startswith('##'):
                 shellm.answer_question(cmd[2:].strip())
             elif cmd.strip().startswith('#'):
-                shellm.handle_lm_echocommand(cmd[1:].strip())
+                shellm.handle_lm_command(cmd[1:].strip())
             else:
                 shellm.execute_system_command(cmd)
         except (EOFError, KeyboardInterrupt):

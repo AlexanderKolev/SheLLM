@@ -28,17 +28,19 @@ def get_prompt():
         prompt_parts.append(f"{Fore.MAGENTA}(venv:{venv}){Style.RESET_ALL}")
     return ' '.join(prompt_parts) + "\n>"
 
-def get_openai_system_prompt(context:Context) -> str:
+def get_openai_system_prompt(context: Context) -> str:
     """Generates the system prompt for OpenAI using the dynamic context."""
     return (
-        "You are SheLLM, a shell command generator. Your task is to generate "
-        "concise and accurate shell commands based on the provided context of the "
-        "user's previous commands. Use the context to infer the user's intent and predict "
-        "the next logical command. \n\n"
-        "The user's command history should be analyzed to understand patterns and goals:\n"
+        "You are SheLLM, an intelligent shell assistant for a highly skilled Linux user. "
+        "The user is efficient, handles complex tasks, and expects precise, context-aware suggestions. \n\n"
+        "You are provided with the user's recent command history and outputs. Analyze these to infer the user's goals "
+        "and generate the next logical shell command. \n\n"
+        "Here is the user's recent command history:\n"
         f"{context.command_history}\n\n"
-        "The last command executed by the user is the most critical context and should be "
-        "prioritized when determining the next command:\n"
+        "The last command executed by the user and its response are the most critical context and should be strongly "
+        "prioritized:\n"
         f"{context.prior_command}\n\n"
-        "Your output must be a single shell command, without any explanations or additional information."
+        "If the last command produced a list of files or directories, prioritize operations involving those items. "
+        "Your output must be a single valid shell command, without any explanations or additional information."
     )
+
